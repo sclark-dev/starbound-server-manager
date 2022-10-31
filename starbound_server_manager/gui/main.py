@@ -767,6 +767,38 @@ class MainWindow(QtW.QMainWindow):
 
         self.widgets.config.layout.setRowStretch(4, 1)
 
+        # Mods Tab
+        self.widgets.mods = Widgets()
+        self.widgets.mods.widget = QtW.QWidget()
+        self.widgets.mods.layout = QtW.QVBoxLayout()
+        self.widgets.mods.widget.setLayout(self.widgets.mods.layout)
+        self.widgets.tab_widget.addTab(self.widgets.mods.widget, "Server Mods")
+
+        self.widgets.mods.current_mods_layout = QtW.QHBoxLayout()
+        self.widgets.mods.layout.addLayout(self.widgets.mods.current_mods_layout)
+        self.widgets.mods.current_mods_label = QtW.QLabel("Current Mods: ")
+        self.widgets.mods.current_mods_layout.addWidget(self.widgets.mods.current_mods_label)
+        self.widgets.mods.current_mods_data = QtW.QLabel("0")
+        self.widgets.mods.current_mods_layout.addWidget(self.widgets.mods.current_mods_data, 1)
+        self.widgets.mods.mods_table = QtW.QTableWidget()
+        self.widgets.mods.mods_table.setColumnCount(3)
+        self.widgets.mods.mods_table.setHorizontalHeaderItem(0, QtW.QTableWidgetItem("Mod"))
+        self.widgets.mods.mods_table.horizontalHeader().setSectionResizeMode(0, QtW.QHeaderView.Stretch)
+        self.widgets.mods.mods_table.setHorizontalHeaderItem(1, QtW.QTableWidgetItem("Path"))
+        self.widgets.mods.mods_table.horizontalHeader().setSectionResizeMode(1, QtW.QHeaderView.Stretch)
+        self.widgets.mods.mods_table.setHorizontalHeaderItem(2, QtW.QTableWidgetItem("Status"))
+        self.widgets.mods.mods_table.horizontalHeader().setSectionResizeMode(2, QtW.QHeaderView.ResizeToContents)
+        self.widgets.mods.layout.addWidget(self.widgets.mods.mods_table, 1)
+        self.widgets.mods.directory_label = QtW.QLabel("Mod Directory")
+        self.widgets.mods.layout.addWidget(self.widgets.mods.directory_label)
+        self.widgets.mods.directory_layout = QtW.QHBoxLayout()
+        self.widgets.mods.layout.addLayout(self.widgets.mods.directory_layout)
+        self.widgets.mods.directory_edit = QtW.QLineEdit()
+        self.widgets.mods.directory_edit.setEnabled(False)
+        self.widgets.mods.directory_layout.addWidget(self.widgets.mods.directory_edit, 1)
+        self.widgets.mods.directory_open_button = QtW.QPushButton("Open")
+        self.widgets.mods.directory_layout.addWidget(self.widgets.mods.directory_open_button)
+
         # Timers
         self.resource_timer = QtC.QTimer()
         self.resource_timer.setInterval(2000)
