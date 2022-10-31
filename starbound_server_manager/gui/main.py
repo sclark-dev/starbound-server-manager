@@ -1,5 +1,6 @@
 import os
 import sys
+import json
 
 import psutil
 from PySide6 import QtWidgets as QtW
@@ -22,6 +23,9 @@ class MainWindow(QtW.QMainWindow):
         self.setMinimumSize(1080, 850)
         self.setFont(MonospaceFont)
         self.widgets = Widgets()
+
+        with open(os.path.join("starbound_server.config")) as file:
+            self.config = json.load(file)
 
         # Menu and Status
         self.top_menu = self.menuBar()
@@ -615,6 +619,8 @@ class MainWindow(QtW.QMainWindow):
         self.widgets.config.general_server_name_label = QtW.QLabel("Server Name:")
         self.widgets.config.general_layout.addWidget(self.widgets.config.general_server_name_label, 0, 0, 1, 3)
         self.widgets.config.general_server_name_edit = QtW.QLineEdit()
+        self.widgets.config.general_server_name_edit.setText(self.config["serverName"])
+        self.widgets.config.general_server_name_edit.textEdited.connect(self.__server_name_edited__)
         self.widgets.config.general_layout.addWidget(self.widgets.config.general_server_name_edit, 1, 0, 1, 3)
         self.widgets.config.general_server_motd_label = QtW.QLabel("Server MOTD:")
         self.widgets.config.general_layout.addWidget(self.widgets.config.general_server_motd_label, 0, 3, 1, 2)
@@ -623,14 +629,21 @@ class MainWindow(QtW.QMainWindow):
         self.widgets.config.general_server_port_label = QtW.QLabel("Server Port:")
         self.widgets.config.general_layout.addWidget(self.widgets.config.general_server_port_label, 2, 0)
         self.widgets.config.general_server_port_edit = QtW.QSpinBox()
+        self.widgets.config.general_server_port_edit.setMaximum(65536)
+        self.widgets.config.general_server_port_edit.setValue(self.config["queryServerPort"])
+        self.widgets.config.general_server_port_edit.valueChanged.connect(self.__server_port_edited__)
         self.widgets.config.general_layout.addWidget(self.widgets.config.general_server_port_edit, 3, 0)
         self.widgets.config.general_max_players_label = QtW.QLabel("Max Players:")
         self.widgets.config.general_layout.addWidget(self.widgets.config.general_max_players_label, 2, 1)
         self.widgets.config.general_max_players_edit = QtW.QSpinBox()
+        self.widgets.config.general_max_players_edit.setValue(self.config["maxPlayers"])
+        self.widgets.config.general_max_players_edit.valueChanged.connect(self.__max_players_edited__)
         self.widgets.config.general_layout.addWidget(self.widgets.config.general_max_players_edit, 3, 1)
         self.widgets.config.general_team_size_label = QtW.QLabel("Team Size:")
         self.widgets.config.general_layout.addWidget(self.widgets.config.general_team_size_label, 2, 2)
         self.widgets.config.general_team_size_edit = QtW.QSpinBox()
+        self.widgets.config.general_team_size_edit.setValue(self.config["maxTeamSize"])
+        self.widgets.config.general_team_size_edit.valueChanged.connect(self.__team_size_edited__)
         self.widgets.config.general_layout.addWidget(self.widgets.config.general_team_size_edit, 3, 2)
         self.widgets.config.general_network_bind_label = QtW.QLabel("Network Bind:")
         self.widgets.config.general_layout.addWidget(self.widgets.config.general_network_bind_label, 2, 3, 1, 2)
@@ -684,6 +697,8 @@ class MainWindow(QtW.QMainWindow):
         self.widgets.config.rcon_layout.addWidget(self.widgets.config.rcon_port_edit, 1, 2)
         self.widgets.config.rcon_timeout_edit = QtW.QSpinBox()
         self.widgets.config.rcon_layout.addWidget(self.widgets.config.rcon_timeout_edit, 1, 3)
+        self.widgets.config.rcon_enable_checkbox = QtW.QCheckBox("Enable RCON")
+        self.widgets.config.rcon_layout.addWidget(self.widgets.config.rcon_enable_checkbox, 1, 4)
 
         self.widgets.config.accounts_group = QtW.QGroupBox("Accounts")
         self.widgets.config.layout.addWidget(self.widgets.config.accounts_group, 3, 0)
@@ -838,6 +853,22 @@ class MainWindow(QtW.QMainWindow):
         self.widgets.stats.resource_cpu_total_data.setText(f"{psutil.cpu_percent()}%")
         self.widgets.stats.resource_ram_total_data.setText(f"{psutil.virtual_memory().percent}%")
 
+    def __server_name_edited__(self, text):
+        self.config["serverName"] = text
+        with open(os.path.join("starbound_server.config"), "w") as file:
+            json.dump(self.config, file, sort_keys=True, indent=2)
+
+    def __server_port_edited__(self, text):
+        pass
+
+    def __max_players_edited__(self, text):
+        pass
+
+    def __team_size_edited__(self, text):
+        pass
+
+    def __network_bind_edited__(self, button_id):
+        pass
 
 def main():
     app = QtW.QApplication(sys.argv)
