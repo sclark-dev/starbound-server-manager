@@ -11,10 +11,6 @@ from PySide6 import QtCore as QtC
 MonospaceFont = QtG.QFont("monospace")
 
 
-class Widgets:
-    pass
-
-
 class MainWindow(QtW.QMainWindow):
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
@@ -22,7 +18,6 @@ class MainWindow(QtW.QMainWindow):
         self.setWindowIcon(QtG.QIcon(os.path.join("resources", "images", "ssm-logo.png")))
         self.setMinimumSize(1080, 850)
         self.setFont(MonospaceFont)
-        self.widgets = Widgets()
 
         with open(os.path.join("starbound_server.config")) as file:
             self.config = json.load(file)
@@ -639,8 +634,7 @@ class MainWindow(QtW.QMainWindow):
         self.w_config_accounts_table.setColumnCount(3)
         self.w_config_accounts_table.verticalHeader().setVisible(False)
         self.w_config_accounts_table.setHorizontalHeaderLabels(("Account Name", "Password", "Admin"))
-        self.w_config_accounts_table.horizontalHeader().setSectionResizeMode(0, QtW.QHeaderView.ResizeMode.Stretch)
-        self.w_config_accounts_table.horizontalHeader().setSectionResizeMode(1, QtW.QHeaderView.ResizeMode.Stretch)
+        self.w_config_accounts_table.horizontalHeader().setSectionResizeMode(QtW.QHeaderView.ResizeMode.Stretch)
         self.w_config_accounts_table.horizontalHeader().setSectionResizeMode(2, QtW.QHeaderView.ResizeMode.ResizeToContents)
         self.w_config_accounts_layout.addWidget(self.w_config_accounts_table, 0, 0, 1, 3)
         self.w_config_accounts_name_label = QtW.QLabel("Account Name:")
@@ -655,7 +649,6 @@ class MainWindow(QtW.QMainWindow):
         self.w_config_accounts_layout.addWidget(self.w_config_accounts_password_edit, 2, 1)
         self.w_config_accounts_add_button = QtW.QPushButton("Add")
         self.w_config_accounts_layout.addWidget(self.w_config_accounts_add_button, 2, 2)
-        self.w_config_accounts_table.setRowCount(1)
 
         self.w_config_banned_ips_group = QtW.QGroupBox("Banned IPs")
         self.w_config_layout.addWidget(self.w_config_banned_ips_group, 3, 1)
@@ -663,10 +656,9 @@ class MainWindow(QtW.QMainWindow):
         self.w_config_banned_ips_group.setLayout(self.w_config_banned_ips_layout)
         self.w_config_banned_ips_table = QtW.QTableWidget()
         self.w_config_banned_ips_table.setColumnCount(2)
-        self.w_config_banned_ips_table.setHorizontalHeaderItem(0, QtW.QTableWidgetItem("IP"))
-        self.w_config_banned_ips_table.horizontalHeader().setSectionResizeMode(0, QtW.QHeaderView.ResizeMode.Stretch)
-        self.w_config_banned_ips_table.setHorizontalHeaderItem(1, QtW.QTableWidgetItem("Reason"))
-        self.w_config_banned_ips_table.horizontalHeader().setSectionResizeMode(1, QtW.QHeaderView.ResizeMode.Stretch)
+        self.w_config_banned_ips_table.verticalHeader().setVisible(False)
+        self.w_config_banned_ips_table.setHorizontalHeaderLabels(("IP", "Reason"))
+        self.w_config_banned_ips_table.horizontalHeader().setSectionResizeMode(QtW.QHeaderView.ResizeMode.Stretch)
         self.w_config_banned_ips_layout.addWidget(self.w_config_banned_ips_table, 0, 0, 1, 3)
         self.w_config_banned_ips_ip_label = QtW.QLabel("IP:")
         self.w_config_banned_ips_layout.addWidget(self.w_config_banned_ips_ip_label, 1, 0)
@@ -685,10 +677,9 @@ class MainWindow(QtW.QMainWindow):
         self.w_config_banned_uuids_group.setLayout(self.w_config_banned_uuids_layout)
         self.w_config_banned_uuids_table = QtW.QTableWidget()
         self.w_config_banned_uuids_table.setColumnCount(2)
-        self.w_config_banned_uuids_table.setHorizontalHeaderItem(0, QtW.QTableWidgetItem("UUID"))
-        self.w_config_banned_uuids_table.horizontalHeader().setSectionResizeMode(0, QtW.QHeaderView.ResizeMode.Stretch)
-        self.w_config_banned_uuids_table.setHorizontalHeaderItem(1, QtW.QTableWidgetItem("Reason"))
-        self.w_config_banned_uuids_table.horizontalHeader().setSectionResizeMode(1, QtW.QHeaderView.ResizeMode.Stretch)
+        self.w_config_banned_uuids_table.verticalHeader().setVisible(False)
+        self.w_config_banned_uuids_table.setHorizontalHeaderLabels(("UUID", "Reason"))
+        self.w_config_banned_uuids_table.horizontalHeader().setSectionResizeMode(QtW.QHeaderView.ResizeMode.Stretch)
         self.w_config_banned_uuids_layout.addWidget(self.w_config_banned_uuids_table, 0, 0, 1, 3)
         self.w_config_banned_uuids_uuid_label = QtW.QLabel("UUID:")
         self.w_config_banned_uuids_layout.addWidget(self.w_config_banned_uuids_uuid_label, 1, 0)
@@ -717,11 +708,8 @@ class MainWindow(QtW.QMainWindow):
         self.w_mods_current_mods_layout.addWidget(self.w_mods_current_mods_data, 1)
         self.w_mods_mods_table = QtW.QTableWidget()
         self.w_mods_mods_table.setColumnCount(3)
-        self.w_mods_mods_table.setHorizontalHeaderItem(0, QtW.QTableWidgetItem("Mod"))
-        self.w_mods_mods_table.horizontalHeader().setSectionResizeMode(0, QtW.QHeaderView.ResizeMode.Stretch)
-        self.w_mods_mods_table.setHorizontalHeaderItem(1, QtW.QTableWidgetItem("Path"))
-        self.w_mods_mods_table.horizontalHeader().setSectionResizeMode(1, QtW.QHeaderView.ResizeMode.Stretch)
-        self.w_mods_mods_table.setHorizontalHeaderItem(2, QtW.QTableWidgetItem("Status"))
+        self.w_mods_mods_table.setHorizontalHeaderLabels(("Mod", "Path", "Status"))
+        self.w_mods_mods_table.horizontalHeader().setSectionResizeMode(QtW.QHeaderView.ResizeMode.Stretch)
         self.w_mods_mods_table.horizontalHeader().setSectionResizeMode(2, QtW.QHeaderView.ResizeMode.ResizeToContents)
         self.w_mods_layout.addWidget(self.w_mods_mods_table, 1)
         self.w_mods_directory_label = QtW.QLabel("Mod Directory")
@@ -798,6 +786,7 @@ class MainWindow(QtW.QMainWindow):
 
     def __network_bind_edited__(self, button_id):
         pass
+
 
 def main():
     app = QtW.QApplication(sys.argv)
